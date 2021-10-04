@@ -1,6 +1,7 @@
 """
-    Implementação do método das substituições retroativas
-    Para resolução de Sistemas Lineares
+    Implementação do método de Gauss
+    Para resolução de sistemas de equações lineares
+
 """
 
 def matriz (n):
@@ -33,35 +34,55 @@ def substituicaoret (n, mat, c):
 
     return x
 
+def gauss(n, mat, c):   
+    """ Implementação do Método de Gauss """
+
+    for k in range (0, n-1):
+        for i in range(k+1, n):
+            m=(-1)*mat[i][k]/mat[k][k]
+            for j in range (k, n):
+                mat[i][j] = mat[i][j] + (m*mat[k][j])
+            c[i] = c[i] + m*c[k]
+    return substituicaoret(n, mat, c)
+
+
 def main():
     n= int(input("Numero de termos: "))
     mat = matriz(n)
     c = vetor(n)
-    print("Insira os termos da matriz: ")
+    print("Insira os termos da matriz:")
     for i in range (0, n):
         for j in range (0, n):
             mat[i][j] = float(input())
     print("Insira os termos do vetor independente: ")
     for i in range (0, n):
         c[i] = float(input())
-    x = substituicaoret(n, mat, c)
+    x = gauss(n, mat, c)
     print("[", end=" ")
     for i in range (0, n):
-        print(x[i], end="  ")
+        print(x[i], end = "  ")
     print("]")
     return
 
 main()
 
 #    MATRIZ UTILIZADA PARA TESTE:
-#    |  4 -6   5  | |X1|    |  29 |
-#    |  0  5  1.5 | |X2| =  |-0.5 |
-#    |  0  0  1.2 | |X3|    | 3.6 |
+#    |  1  -3   2  | |X1|    |  11 |
+#    | -2   8  -1  | |X2| =  | -15 |
+#    |  4  -6   5  | |X3|    |  29 |
 #    Resultado esperado: [2, -1, 3]
 
+#    |  2   1  -1  | |X1|    |  3 |
+#    |  1   3   2  | |X2| =  |  4 |
+#    |  3  -2   1  | |X3|    | -5 |
+#    Resultado esperado: [0, 2, -1]
 
-#    |  5 -2  6   1 | |X1|    | 1 |
-#    |  0  3  7  -4 | |X2| =  |-2 |
-#    |  0  0  4   5 | |X3|    |28 |
-#    |  0  0  0   2 | |X4|    | 8 |
-#    Resultado esperado: [-3, 0, 2, 4]
+#    |  1   2  -3  | |X1|    | 10 |
+#    |  2   1   1  | |X2| =  |  3 |
+#    | -3   2   1  | |X3|    | -6 |
+#    Resultado esperado: [2, 1, -2]
+
+#    |  1   1   1  | |X1|    |  6 |
+#    |  1   2   2  | |X2| =  |  9 |
+#    |  2   1   3  | |X3|    | 11 |
+#    Resultado esperado: [3, 2, 1]
